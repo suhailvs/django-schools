@@ -11,7 +11,7 @@
     </ol>
   </nav>
   <h2 class="mb-3">{{ question.txt }}</h2>
-  <form method="post" novalidate>
+  <form method="post" novalidate  enctype="multipart/form-data">
     {% csrf_token %}
     {{ formset.management_form }}
     {{ form|crispy }}
@@ -36,10 +36,13 @@
         {% for form in formset %}
           <div class="list-group-item">
             <div class="row">
-              <div class="col-8">
+              <div class="col-6">
                 {% for hidden in form.hidden_fields %}{{ hidden }}{% endfor %}
                 {{ form.text|as_crispy_field }}
                 {% if form.instance.pk and form.text.value != form.instance.text %}<p class="mb-0 mt-1"><small class="text-muted font-italic"><strong>Old answer:</strong> {{ form.instance.text }}</small></p>{% endif %}
+              </div>
+              <div class="col-2">
+                {{ form.image|as_crispy_field }}
               </div>
               <div class="col-2">
                 {{ form.is_correct }}

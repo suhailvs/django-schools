@@ -1,6 +1,6 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
-from django.utils.html import escape, mark_safe
+from django.utils.html import escape, mark_safe, format_html
 
 
 class User(AbstractUser):
@@ -33,7 +33,8 @@ class Quiz(models.Model):
 
 class Question(models.Model):
     quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE, related_name='questions')
-    text = models.TextField('Question')
+    text = models.TextField('Question', blank=True)
+    image = models.ImageField(blank=True, upload_to="questions/")
 
     def __str__(self):
         return self.text
@@ -41,11 +42,17 @@ class Question(models.Model):
 
 class Answer(models.Model):
     question = models.ForeignKey(Question, on_delete=models.CASCADE, related_name='answers')
-    text = models.CharField('Answer', max_length=255)
+    text = models.CharField('Answer', max_length=255, blank=True)
+    image = models.ImageField(blank=True, upload_to="answers/")
     is_correct = models.BooleanField('Correct answer', default=False)
 
     def __str__(self):
-        return self.text
+        image_url = ''
+        str_html = self.text
+        if self.image:
+            image_url = self.image.url
+            str_html += '<br><img src="{}" class="img-thumbnail" style="max-width: 100%"><hr>'
+        return format_html(str_html, image_url)
 
 
 class Student(models.Model):

@@ -4,8 +4,7 @@ from django.db import transaction
 from django.forms.utils import ValidationError
 
 from classroom.models import (Answer, Question, Student, StudentAnswer,
-                              Subject, User)
-
+    Subject, User)
 
 class TeacherSignUpForm(UserCreationForm):
     class Meta(UserCreationForm.Meta):
@@ -51,7 +50,7 @@ class StudentInterestsForm(forms.ModelForm):
 class QuestionForm(forms.ModelForm):
     class Meta:
         model = Question
-        fields = ('text', )
+        fields = ('text', 'image')
 
 
 class BaseAnswerInlineFormSet(forms.BaseInlineFormSet):

@@ -39,6 +39,7 @@ input[type=radio]:checked + label:before{
   
   <h2 class="mb-3">{{ quiz.name }}</h2>
   <p class="lead">{{ question.text }}</p>
+  {% if question.image %}<img src="{{ question.image.url }}" class="img-thumbnail" style="max-width: 100%">{% endif %}
   <form method="post" novalidate>
     {% csrf_token %}
     {{ form|crispy }}

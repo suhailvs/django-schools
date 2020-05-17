@@ -134,7 +134,7 @@ def question_add(request, pk):
     quiz = get_object_or_404(Quiz, pk=pk, owner=request.user)
 
     if request.method == 'POST':
-        form = QuestionForm(request.POST)
+        form = QuestionForm(request.POST, request.FILES)
         if form.is_valid():
             question = form.save(commit=False)
             question.quiz = quiz
@@ -163,7 +163,7 @@ def question_change(request, quiz_pk, question_pk):
         Question,  # parent model
         Answer,  # base model
         formset=BaseAnswerInlineFormSet,
-        fields=('text', 'is_correct'),
+        fields=('text','image', 'is_correct'),
         min_num=2,
         validate_min=True,
         max_num=10,
@@ -171,8 +171,8 @@ def question_change(request, quiz_pk, question_pk):
     )
 
     if request.method == 'POST':
-        form = QuestionForm(request.POST, instance=question)
-        formset = AnswerFormSet(request.POST, instance=question)
+        form = QuestionForm(request.POST, request.FILES, instance=question)
+        formset = AnswerFormSet(request.POST, request.FILES, instance=question)
         if form.is_valid() and formset.is_valid():
             with transaction.atomic():
                 form.save()
