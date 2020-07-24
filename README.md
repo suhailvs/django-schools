@@ -64,3 +64,4 @@ The source code is released under the [MIT License](https://github.com/sibtc/dja
 + Install heroku `$ sudo snap install --classic heroku`
 + logs `$ heroku logs -a djangoschools` 
 + `$ heroku run -a djangoschools python django_school/manage.py migrate`
++ To backup heroku database `$ heroku pg:backups capture -a djangoschools`
