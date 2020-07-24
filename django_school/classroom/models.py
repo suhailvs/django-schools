@@ -47,12 +47,11 @@ class Answer(models.Model):
     is_correct = models.BooleanField('Correct answer', default=False)
 
     def __str__(self):
-        image_url = ''
-        str_html = self.text
-        if self.image:
-            image_url = self.image.url
-            str_html += '<br><img src="{}" class="img-thumbnail" style="max-width: 100%"><hr>'
-        return format_html(str_html, image_url)
+        if not self.image: 
+            return self.text
+        return format_html('{}<br><img src="{}" class="img-thumbnail" style="max-width: 100%"><hr>', 
+            self.text, self.image.url)
+
 
 
 class Student(models.Model):
