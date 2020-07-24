@@ -25,3 +25,4 @@ def save_github_user(backend, user, response, *args, **kwargs):
             student = Student.objects.create(user=user)
         # avatar_url = response.get('avatar_url')
         # print(user, response)
+
