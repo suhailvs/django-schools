@@ -28,17 +28,16 @@
 <div class="row">
 {% for student in students %}
   <div class="col-sm-3">
-    <div class="media">
-      <a href="{% url 'students:student_detail' student=student.user.id %}">
-        <img class="mr-3" src="{{ student.user.username|gravatar_url:50 }}" alt="{{student.user.get_full_name}}">
-      </a>
-      <div class="media-body" style="font-size: 12px">
-        <!-- <a href="#">{{user.get_full_name}}</a><br> -->
-        <a href="{% url 'students:student_detail' student=student.user.id %}">{{student.user.username}}</a><br>
-        <strong>{{student.score}}</strong><br>
-        {{student.taken_quizzes.all|top_subject}}
-      </div>
-    </div>
+    <div class="d-flex mb-3">
+     <a href="{% url 'students:student_detail' student=student.user.id %}">
+       <img src="{{ student.user.username|gravatar_url:50 }}" alt="{{student.user.get_full_name}}">
+     </a>
+     <div style="padding-left: 10px; font-size: 12px">
+       <a href="{% url 'students:student_detail' student=student.user.id %}">{{student.user.username}}</a><br>
+       <strong>{{student.score}}</strong><br>
+       {{student.taken_quizzes.all|top_subject}}
+     </div>
+    </div>  
   </div>
 {% empty %}
   <div class="col-sm-6"><p class="text-warning">No student matched your search.</p></div>
