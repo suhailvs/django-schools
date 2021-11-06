@@ -10,24 +10,26 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.0/ref/settings/
 """
 
-import os
-
+from pathlib import Path
+from decouple import config
 from django.contrib.messages import constants as messages
 
-# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
+# Build paths inside the project like this: BASE_DIR / 'subdir'.
+BASE_DIR = Path(__file__).resolve().parent.parent
+# PROJECT_DIR = BASE_DIR / 'django_school'
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'd$pxg6fisc4iwzk&vz^s_d0lkf&k63l5a8f!obktw!jg#4zvp3'
+SECRET_KEY = config('SECRET_KEY') # https://stackoverflow.com/a/53144229/2351696
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = config('DEBUG', cast=bool)
 
-ALLOWED_HOSTS = []
+
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=lambda v: [s.strip() for s in v.split(',')])
+
 
 
 # Application definition
@@ -62,7 +64,7 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            os.path.join(BASE_DIR, 'templates')
+            BASE_DIR / 'templates',
         ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -85,18 +87,30 @@ WSGI_APPLICATION = 'django_school.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
-    # Heroku Database
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.postgresql',
-    #     'NAME': 'd5hknnaihi88bf',
-    #     'USER': 'vpidynpvpkjahr',
-    #     'PASSWORD': '3005007b069891de106545657b9cb998dcb3bcf974d2d4f1c57d6f2746c692af',
-    #     'HOST': 'ec2-18-210-51-239.compute-1.amazonaws.com',
-    #     'PORT': '5432',
-    # }
 }
+if config('DB_NAME'):
+    DATABASES = {
+      'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': config('DB_NAME'),
+        'USER': config('DB_USER'),
+        'PASSWORD': config('DB_PASSWORD'),
+        'HOST': config('DB_HOST'),
+        'PORT': '5432',
+      } 
+      # Heroku Database
+        # 'default': {
+        #     'ENGINE': 'django.db.backends.postgresql',
+        #     'NAME': 'd5hknnaihi88bf',
+        #     'USER': 'vpidynpvpkjahr',
+        #     'PASSWORD': '3005007b069891de106545657b9cb998dcb3bcf974d2d4f1c57d6f2746c692af',
+        #     'HOST': 'ec2-18-210-51-239.compute-1.amazonaws.com',
+        #     'PORT': '5432',
+        # }
+    }
+
 
 
 # Internationalization
@@ -117,9 +131,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
 STATIC_URL = '/static/'
-
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static'),
+    BASE_DIR / 'django_school' / 'static',
 ]
 
 

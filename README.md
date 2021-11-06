@@ -33,6 +33,7 @@ Create the database and run the development server:
 
 ```bash
 cd django_school
+cp .env.sample .env # update it
 python manage.py migrate
 python manage.py loaddata datas.json
 python manage.py runserver
