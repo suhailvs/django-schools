@@ -52,6 +52,23 @@ The project will be available at http://127.0.0.1:8000, Login using::
 + password: `student`
 
 
+## Deployment
+
+```
+$ vim /etc/apache2/sites-available/djangoschools.conf
+
+<VirtualHost *:80>
+    ServerName django.stackschools.com
+
+    WSGIDaemonProcess djangoschoolapp python-home=/var/www/django-schools/django_school/env python-path=/var/www/django-schools/django_school
+    WSGIProcessGroup djangoschoolapp
+    WSGIScriptAlias / /var/www/django-schools/django_school/django_school/wsgi.py
+    ErrorLog /var/www/django-schools/error.log
+    CustomLog /var/www/django-schools/access.log combined
+</VirtualHost>
+```
+
 ## License
 
 The source code is released under the [MIT License](https://github.com/sibtc/django-multiple-user-types-example/blob/master/LICENSE).
+
