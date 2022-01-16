@@ -105,6 +105,22 @@ DATABASES = {
     # }
 }
 
+#if 'DATABASE_URL' in os.environ:
+import dj_database_url
+DATABASES = {'default': dj_database_url.config()}
+
+if config('DB_NAME'):
+    DATABASES = {
+      'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': config('DB_NAME'),
+        'USER': config('DB_USER'),
+        'PASSWORD': config('DB_PASSWORD'),
+        'HOST': config('DB_HOST'),
+        'PORT': '5432',
+      } 
+    }
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.0/topics/i18n/
@@ -176,9 +192,6 @@ MESSAGE_TAGS = {
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 
-#if 'DATABASE_URL' in os.environ:
-import dj_database_url
-DATABASES = {'default': dj_database_url.config()}
 
 ALLOWED_HOSTS = ['*']
 PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
