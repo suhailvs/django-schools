@@ -185,4 +185,4 @@ MESSAGE_TAGS = {
 # Third party apps configuration
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
-STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATIC_ROOT = BASE_DIR / 'mysite' / 'staticfiles'
