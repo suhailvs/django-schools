@@ -1,10 +1,10 @@
-# [Django School](https://djangoschools.herokuapp.com/)
+# [Django School](https://django.stackschools.com/)
 
 [![Python Version](https://img.shields.io/badge/python-3.6-brightgreen.svg)](https://python.org)
 [![Django Version](https://img.shields.io/badge/django-3.0-brightgreen.svg)](https://djangoproject.com)
 [![CircleCI](https://circleci.com/gh/suhailvs/django-schools.svg?style=svg)](https://circleci.com/gh/suhailvs/django-schools)
 
-## [demo](https://djangoschools.herokuapp.com/)
+## [demo](https://django.stackschools.com/)
 
 This is an example project to illustrate an implementation of multiple user types. In this Django app, teachers can create quizzes and students can sign up and take quizzes related to their interests.
 
@@ -33,6 +33,7 @@ Create the database and run the development server:
 
 ```bash
 cd django_school
+cp .env.sample .env # update it
 python manage.py migrate
 python manage.py loaddata datas.json
 python manage.py runserver
@@ -51,17 +52,24 @@ The project will be available at http://127.0.0.1:8000, Login using::
 + password: `student`
 
 
+## Deployment
+
+```
+$ vim /etc/apache2/sites-available/djangoschools.conf
+
+<VirtualHost *:80>
+    ServerName django.stackschools.com
+
+    WSGIDaemonProcess djangoschoolapp python-home=/var/www/django-schools/django_school/env python-path=/var/www/django-schools/django_school
+    WSGIProcessGroup djangoschoolapp
+    WSGIScriptAlias / /var/www/django-schools/django_school/django_school/wsgi.py
+    ErrorLog /var/www/django-schools/error.log
+    CustomLog /var/www/django-schools/access.log combined
+</VirtualHost>
+```
+
 ## License
 
 The source code is released under the [MIT License](https://github.com/sibtc/django-multiple-user-types-example/blob/master/LICENSE).
 
 
-# Heroku
-
-+ create and app at https://dashboard.heroku.com/apps/
-+ click `Deploy` Tab -> Deploy method `Github`
-+ Manual deploy, select `heroku` branch, click `Deploy Branch`
-+ Install heroku `$ sudo snap install --classic heroku`
-+ logs `$ heroku logs -a djangoschools` 
-+ `$ heroku run -a djangoschools python django_school/manage.py migrate`
-+ To backup heroku database `$ heroku pg:backups capture -a djangoschools`
