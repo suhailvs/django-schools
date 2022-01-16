@@ -8,23 +8,12 @@ from .models import AuditEntry
 @receiver(user_logged_in)
 def user_logged_in_callback(sender, request, user, **kwargs):
     ip = request.META.get('REMOTE_ADDR')
-
-    from urllib.request import urlopen
-    from json import load
-    try:
-        # https://stackoverflow.com/a/55432323/2351696
-        data = load(urlopen(f'https://ipinfo.io/{ip}/json'))
-        ip_loc = f"{ip}, {data['city']} {data['region']} {data['country']}"
-    except:
-        ip_loc = ip
-
-    AuditEntry.objects.create(action='user_logged_in', ip=ip_loc, username=user.username)
+    AuditEntry.objects.create(action='user_logged_in', ip=ip, username=user.username)
 
 
 @receiver(user_login_failed)
 def user_login_failed_callback(sender, credentials, **kwargs):
     AuditEntry.objects.create(action='user_login_failed', username=credentials.get('username', None))
-
 
 
 @receiver(user_logged_out)
