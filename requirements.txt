@@ -6,4 +6,4 @@ python-decouple
 gunicorn
 whitenoise
 dj-database-url 
-psycopg2
+psycopg2==2.8.6
