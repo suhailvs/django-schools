@@ -1,4 +1,10 @@
 [
+    {"model": "classroom.subject", "pk": 1, "fields": {"name": "Arts", "color": "#343a40"}}, 
+    {"model": "classroom.subject", "pk": 2, "fields": {"name": "Computing", "color": "#007bff"}},
+    {"model": "classroom.subject", "pk": 3, "fields": {"name": "Math", "color": "#28a745"}}, 
+    {"model": "classroom.subject", "pk": 4, "fields": {"name": "Biology", "color": "#17a2b8"}}, 
+    {"model": "classroom.subject", "pk": 5, "fields": {"name": "History", "color": "#ffc107"}}, 
+    
     {"model": "classroom.question", "pk": 1, "fields": {"quiz": 1, "text": "When was the Treaty of Versailles signed?"}}, 
     {"model": "classroom.question", "pk": 2, "fields": {"quiz": 1, "text": "Britain, France, USA, Germany, Italy, and Russia."}}, 
     {"model": "classroom.question", "pk": 3, "fields": {"quiz": 1, "text": "The war ended on November 11 1918."}}, 
