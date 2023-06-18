@@ -41,7 +41,11 @@ class QuizListView(ListView):
     template_name = 'classroom/teachers/quiz_change_list.html'
 
     def get_queryset(self):
-        queryset = self.request.user.quizzes \
+        if self.request.user.is_superuser:
+            queryset = self.model.objects.all()
+        else:
+            queryset = self.request.user.quizzes
+        queryset = queryset \
             .select_related('subject') \
             .annotate(questions_count=Count('questions', distinct=True)) \
             .annotate(taken_count=Count('taken_quizzes', distinct=True))
