@@ -1,4 +1,4 @@
-# [Django School](https://django.stackschools.com/)
+# [Django Schools](https://django.stackschools.com/)
 
 [![Python Version](https://img.shields.io/badge/python-3.6-brightgreen.svg)](https://python.org)
 [![Django Version](https://img.shields.io/badge/django-3.0-brightgreen.svg)](https://djangoproject.com)
@@ -8,7 +8,7 @@
 
 This is an example project to illustrate an implementation of multiple user types. In this Django app, teachers can create quizzes and students can sign up and take quizzes related to their interests.
 
-![Django School Screenshot](https://simpleisbetterthancomplex.com/media/2018/01/teacher-quiz.png)
+![Django Schools Screenshot](https://simpleisbetterthancomplex.com/media/2018/01/teacher-quiz.png)
 
 Read the blog post [How to Implement Multiple User Types with Django](https://simpleisbetterthancomplex.com/tutorial/2018/01/18/how-to-implement-multiple-user-types-with-django.html).
 
@@ -33,7 +33,7 @@ Create the database and run the development server:
 
 ```bash
 cd django_school
-cp .env.sample .env # update it
+cp .env.sample .env
 python manage.py migrate
 python manage.py loaddata datas.json
 python manage.py runserver
