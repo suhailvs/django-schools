@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block css %}
-<link rel="stylesheet" type="text/css" href="{% static 'datatables/dataTables.bootstrap4.min.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'datatables/dataTables.bootstrap5.min.css' %}">
 {% endblock %}
 
 {% block content %}
@@ -37,9 +37,9 @@
 {% endblock %}
 
 {% block js %}
-<script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
+
 <script src="{% static 'datatables/jquery.dataTables.min.js' %}"></script>
-<script src="{% static 'datatables/dataTables.bootstrap4.min.js' %}"></script>
+<script src="{% static 'datatables/dataTables.bootstrap5.min.js' %}"></script>
 <script type="text/javascript">
 $(document).ready(function() {
     $('#tb_quizlist').DataTable({"order": [[ 2, "desc" ]]});
