@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.humanize',
 
     'crispy_forms',
+    'crispy_bootstrap4',
     # 'social_django',
     'classroom',
 ]
@@ -181,7 +182,7 @@ MESSAGE_TAGS = {
     messages.ERROR: 'alert-danger',
 }
 
-
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap4"
 # Third party apps configuration
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
