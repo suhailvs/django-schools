@@ -4,3 +4,7 @@ django-crispy-forms==2.0
 python-decouple==3.4
 crispy-bootstrap5==2023.10
 whitenoise==5.3.0
+gunicorn
+
+dj-database-url
+psycopg2-binary
