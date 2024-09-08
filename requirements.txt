@@ -4,4 +4,4 @@ social-auth-app-django==5.4.2
 python-decouple==3.8
 crispy-bootstrap5==2024.2
 whitenoise==6.7.0
-# psycopg2
+psycopg2-binary
