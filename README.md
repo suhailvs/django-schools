@@ -32,7 +32,6 @@ pip install -r requirements.txt
 Create the database and run the development server:
 
 ```bash
-cd django_school
 cp .env.sample .env
 python manage.py migrate
 python manage.py loaddata datas.json
@@ -51,22 +50,6 @@ The project will be available at http://127.0.0.1:8000, Login using::
 + username: `student`
 + password: `student`
 
-
-## Deployment
-
-```
-$ vim /etc/apache2/sites-available/djangoschools.conf
-
-<VirtualHost *:80>
-    ServerName django.stackschools.com
-
-    WSGIDaemonProcess djangoschoolapp python-home=/var/www/django-schools/django_school/env python-path=/var/www/django-schools/django_school
-    WSGIProcessGroup djangoschoolapp
-    WSGIScriptAlias / /var/www/django-schools/django_school/django_school/wsgi.py
-    ErrorLog /var/www/django-schools/error.log
-    CustomLog /var/www/django-schools/access.log combined
-</VirtualHost>
-```
 
 ## License
 
