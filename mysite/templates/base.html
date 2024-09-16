@@ -43,14 +43,17 @@
             </div>
             <div class="col-6 text-end">
               {% if user.is_authenticated %}
-                <p class="pt-3">
+                <div style="float: right;">
                   {% if user.is_student %}
                     <strong><a href="{% url 'students:student_detail' student=user.id %}">{{ user.username }}</a> - {{user.student.score}}</strong>
                   {% else %}
                     <strong>{{ user.username }}</strong>
                   {% endif %}
-                    | <a href="{% url 'logout' %}">Log out</a>
-                </p>
+                    | <form method="post" style="display:inline!important;" action="{% url 'logout' %}">
+                      {% csrf_token %}
+                      <button class="btn btn-link" type="submit">logout</button>
+                  </form>
+                </div>
               {% else %}
                 <a href="{% url 'login' %}" class="btn btn-light" role="button">Log in</a>
                 <a href="{% url 'signup' %}" class="btn btn-primary" role="button">Sign up</a>
