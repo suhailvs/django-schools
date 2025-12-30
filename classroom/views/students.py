@@ -95,7 +95,11 @@ class TakenQuizListView(ListView):
     template_name = 'classroom/students/taken_quiz_list.html'
 
     def get_queryset(self):
-        queryset = self.request.user.student.taken_quizzes \
+        student = self.request.user.student
+        if self.request.GET.get('taken_quiz'):
+            TakenQuiz.objects.filter(id=self.request.GET['taken_quiz'], 
+                                     student=student).delete()
+        queryset = student.taken_quizzes \
             .select_related('quiz', 'quiz__subject') \
             .order_by('quiz__name')
         return queryset

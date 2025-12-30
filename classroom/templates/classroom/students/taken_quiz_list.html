@@ -9,6 +9,8 @@
           <th>Quiz</th>
           <th>Subject</th>
           <th>%</th>
+          <th>Correct</th>
+          <th></th>
         </tr>
       </thead>
       <tbody>
@@ -17,10 +19,16 @@
             <td><a href="{% url 'students:student_quiz_results' taken_quiz.quiz.id %}">{{ taken_quiz.quiz.name }}</a></td>
             <td>{{ taken_quiz.quiz.subject.get_html_badge }}</td>
             <td>{{ taken_quiz.percentage }}</td>
+            <td>{{ taken_quiz.score }}</td>
+            <td>
+              <form method="get" action=".">
+                <input type="hidden" name="taken_quiz" value="{{taken_quiz.id}}" />
+                <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+              </form></td>
           </tr>
         {% empty %}
           <tr>
-            <td class="bg-light text-center font-italic" colspan="3">You haven't completed any quiz yet.</td>
+            <td class="bg-light text-center font-italic" colspan="5">You haven't completed any quiz yet.</td>
           </tr>
         {% endfor %}
       </tbody>
