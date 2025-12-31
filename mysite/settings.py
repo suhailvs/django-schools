@@ -113,7 +113,7 @@ if config('IS_VERSEL'):
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
-            'NAME': 'verceldb',
+            'NAME': 'verceldb1',
             'USER': 'default',
             'PASSWORD': 'BbDwy7i1lYXL',
             'HOST': 'ep-sweet-star-a473ofsf.us-east-1.aws.neon.tech',
