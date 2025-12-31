@@ -2,36 +2,36 @@
 
 {% block content %}
   {% include 'classroom/students/_header.html' with active='taken' %}
-  <div class="card">
-    <table class="table mb-0">
-      <thead>
+  <p>Press <strong>Delete</strong> to reattempt the quiz.</p>
+  
+  <table class="table table-sm table-striped table-bordered table-responsive">
+    <thead>
+      <tr>
+        <th>Quiz</th>
+        <th class="d-none d-sm-table-cell">Subject</th>
+        <th class="d-none d-sm-table-cell">%</th>
+        <th>Correct</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for taken_quiz in taken_quizzes %}
         <tr>
-          <th>Quiz</th>
-          <th>Subject</th>
-          <th>%</th>
-          <th>Correct</th>
-          <th></th>
+          <td><a href="{% url 'students:student_quiz_results' taken_quiz.quiz.id %}">{{ taken_quiz.quiz.name }}</a></td>
+          <td class="d-none d-sm-table-cell">{{ taken_quiz.quiz.subject.get_html_badge }}</td>
+          <td class="d-none d-sm-table-cell">{{ taken_quiz.percentage }}</td>
+          <td>{{ taken_quiz.score }} / {{taken_quiz.questions_count}}</td>
+          <td>
+            <form method="get" action=".">
+              <input type="hidden" name="taken_quiz" value="{{taken_quiz.id}}" />
+              <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+            </form></td>
         </tr>
-      </thead>
-      <tbody>
-        {% for taken_quiz in taken_quizzes %}
-          <tr>
-            <td><a href="{% url 'students:student_quiz_results' taken_quiz.quiz.id %}">{{ taken_quiz.quiz.name }}</a></td>
-            <td>{{ taken_quiz.quiz.subject.get_html_badge }}</td>
-            <td>{{ taken_quiz.percentage }}</td>
-            <td>{{ taken_quiz.score }} out of {{taken_quiz.questions_count}}</td>
-            <td>
-              <form method="get" action=".">
-                <input type="hidden" name="taken_quiz" value="{{taken_quiz.id}}" />
-                <button type="submit" class="btn btn-danger btn-sm">Delete</button>
-              </form></td>
-          </tr>
-        {% empty %}
-          <tr>
-            <td class="bg-light text-center font-italic" colspan="5">You haven't completed any quiz yet.</td>
-          </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-  </div>
+      {% empty %}
+        <tr>
+          <td class="bg-light text-center font-italic" colspan="5">You haven't completed any quiz yet.</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
 {% endblock %}

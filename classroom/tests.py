@@ -155,3 +155,7 @@ class LoginPageTest(TestCase):
 
         
 
+# class TestDeleteTakenQuiz(TestCase):
+#     def test_delete_takenquiz(self):
+#         taken_quiz_list
+#         taken_quiz
