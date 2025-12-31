@@ -41,11 +41,13 @@
 {% endblock %}
 
 {% block js %}
+{% if quizzes %}
 <script src="{% static 'datatables/jquery.dataTables.min.js' %}"></script>
 <script src="{% static 'datatables/dataTables.bootstrap5.min.js' %}"></script>
 <script type="text/javascript">
 $(document).ready(function() {
-    $('#tb_quizlist').DataTable({"order": [[ 2, "desc" ]]});
+    $('#tb_quizlist').DataTable({"order": [[ 0, "desc" ]]});
 });
 </script>
+{% endif %}
 {% endblock %}
