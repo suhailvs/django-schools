@@ -14,7 +14,7 @@ from django.views import View
 
 from ..decorators import student_required
 from ..forms import StudentInterestsForm, StudentSignUpForm, TakeQuizForm
-from ..models import Quiz, Student, TakenQuiz, Question
+from ..models import Quiz, Student, TakenQuiz, Question, StudentAnswer
 
 User = get_user_model()
 
@@ -96,11 +96,13 @@ class TakenQuizListView(ListView):
 
     def get_queryset(self):
         student = self.request.user.student
-        if self.request.GET.get('taken_quiz'):
-            TakenQuiz.objects.filter(id=self.request.GET['taken_quiz'], 
-                                     student=student).delete()
+        taken_quiz = TakenQuiz.objects.filter(id=self.request.GET.get('taken_quiz'),student=student)
+        if taken_quiz:
+            StudentAnswer.objects.filter(student=student,answer__question__quiz=taken_quiz.first().quiz).delete()
+            taken_quiz.delete()
         queryset = student.taken_quizzes \
             .select_related('quiz', 'quiz__subject') \
+            .annotate(questions_count=Count('quiz__questions', distinct=True)) \
             .order_by('quiz__name')
         return queryset
 
