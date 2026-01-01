@@ -14,7 +14,7 @@
     <div class="progress-bar overflow-visible bg-success" style="width: {{ progress }}%">Question: {{ answered_questions|add:"1" }} of {{total_questions}}({{ progress }}%)</div>
   </div>
 
-  <p class="lead">{{ question.text }}</p>
+  <p class="lead">{{ question.text|safe }}</p>
   <form method="post" novalidate>
     {% csrf_token %}
     {{ form|crispy }}

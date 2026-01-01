@@ -12,7 +12,7 @@
     </ol>
   </nav>
   <h2 class="mb-3">Confirm deletion</h2>
-  <p class="lead">Are you sure you want to delete the question <strong>"{{ question.text }}"</strong>? There is no going back.</p>
+  <p class="lead">Are you sure you want to delete the question <strong>"{{ question.text|safe }}"</strong>? There is no going back.</p>
   <form method="post">
     {% csrf_token %}
     <button type="submit" class="btn btn-danger btn-lg">Yes, I'm sure</button>
