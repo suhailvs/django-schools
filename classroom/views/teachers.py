@@ -11,9 +11,10 @@ from django.urls import reverse, reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views.generic import (CreateView, DeleteView, DetailView, ListView,
                                   UpdateView)
-
+from django.views import View
 from ..decorators import teacher_required
-from ..forms import BaseAnswerInlineFormSet, QuestionForm, TeacherSignUpForm
+from ..forms import (BaseAnswerInlineFormSet, QuestionForm, TeacherSignUpForm,
+    QuizForm,QuestionsFileForm)
 from ..models import Answer, Question, Quiz
 
 User = get_user_model()
@@ -61,28 +62,52 @@ class QuizCreateView(CreateView):
         return redirect('teachers:quiz_change', quiz.pk)
 
 
-@method_decorator([login_required, teacher_required], name='dispatch')
-class QuizUpdateView(UpdateView):
-    model = Quiz
-    fields = ('name', 'subject', )
-    context_object_name = 'quiz'
-    template_name = 'classroom/teachers/quiz_change_form.html'
+def create_question(quiz,line):
+    items = line.split(',')
+    question = Question.objects.create(quiz = quiz, text = items[0])    
+    correct_index = int(items[-1])
+    for i,ans in enumerate(items[1:-1]):
+        Answer.objects.create(question = question, text = ans.strip(), is_correct=(correct_index==i+1))
 
-    def get_context_data(self, **kwargs):
-        kwargs['questions'] = self.get_object().questions.annotate(answers_count=Count('answers'))
-        return super().get_context_data(**kwargs)
 
-    def get_queryset(self):
-        '''
-        This method is an implicit object-level permission management
-        This view will only match the ids of existing quizzes that belongs
-        to the logged in user.
-        '''
-        return self.request.user.quizzes.all()
+@login_required
+@teacher_required
+def quiz_update(request, pk):
+    quiz = get_object_or_404(Quiz,pk=pk,owner=request.user)
 
-    def get_success_url(self):
-        return reverse('teachers:quiz_change', kwargs={'pk': self.object.pk})
+    # ---------- QUIZ UPDATE FORM ----------
+    if request.method == 'POST' and request.POST.get('action') == 'update_quiz':
+        quiz_form = QuizForm(request.POST, instance=quiz)
+        upload_form = QuestionsFileForm()
 
+        if quiz_form.is_valid():
+            quiz_form.save()
+            return redirect('teachers:quiz_change', pk=quiz.pk)
+
+    # ---------- FILE UPLOAD FORM ----------
+    elif request.method == 'POST' and request.POST.get('action') == 'upload_questions':
+        quiz_form = QuizForm(instance=quiz)
+        upload_form = QuestionsFileForm(request.POST, request.FILES)
+
+        if upload_form.is_valid():
+            uploaded_file = upload_form.cleaned_data['file']
+            lines = uploaded_file.read().decode('utf-8').splitlines()
+            with transaction.atomic():
+                for line in lines:
+                    if line.strip():create_question(quiz, line)
+            return redirect('teachers:quiz_change', pk=quiz.pk)
+
+    # ---------- GET REQUEST ----------
+    else:
+        quiz_form = QuizForm(instance=quiz)
+        upload_form = QuestionsFileForm()
+
+    return render(request, 'classroom/teachers/quiz_change_form.html', {
+        'quiz': quiz,
+        'form': quiz_form,
+        'frm_fileupload': upload_form,
+        'questions': quiz.questions.annotate(answers_count=Count('answers')),
+    })
 
 @method_decorator([login_required, teacher_required], name='dispatch')
 class QuizDeleteView(DeleteView):

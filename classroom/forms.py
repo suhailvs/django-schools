@@ -2,9 +2,8 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.db import transaction
 from django.forms.utils import ValidationError
-
 from classroom.models import (Answer, Question, Student, StudentAnswer,
-                              Subject, User)
+                              Subject, User, Quiz)
 
 
 class TeacherSignUpForm(UserCreationForm):
@@ -46,7 +45,17 @@ class StudentInterestsForm(forms.ModelForm):
         widgets = {
             'interests': forms.CheckboxSelectMultiple
         }
-
+class QuizForm(forms.ModelForm):
+    class Meta:
+        model = Quiz
+        fields = ('name', 'subject')
+class QuestionsFileForm(forms.Form):
+    file = forms.FileField(label='Bulk Questions File')
+    def clean_file(self):
+        file = self.cleaned_data['file']
+        if not file.name.lower().endswith('.txt'):
+            raise ValidationError("Only .txt files are allowed.")
+        return file
 
 class QuestionForm(forms.ModelForm):
     class Meta:

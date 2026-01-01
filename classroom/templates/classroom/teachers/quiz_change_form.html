@@ -18,11 +18,19 @@
       <form method="post" novalidate>
         {% csrf_token %}
         {{ form|crispy }}
-        <button type="submit" class="btn btn-success">Save changes</button>
+        <button type="submit" class="btn btn-success" name="action" value="update_quiz">Save Quiz</button>
         <a href="{% url 'teachers:quiz_change_list' %}" class="btn btn-outline-secondary" role="button">Nevermind</a>
         <a href="{% url 'teachers:quiz_delete' quiz.pk %}" class="btn btn-danger float-right">Delete</a>
       </form>
     </div>
+  </div>  
+  <div class="card mb-2 p-2">
+    <!--Upload Questions from file:-->
+    <form method="post" action="." novalidate enctype="multipart/form-data">
+      {% csrf_token %}
+      {{ frm_fileupload|crispy }}
+      <button type="submit" class="btn btn-success" name="action" value="upload_questions">Upload Questions</button>
+    </form>
   </div>
   <div class="card">
     <div class="card-header">
