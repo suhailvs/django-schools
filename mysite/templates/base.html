@@ -27,7 +27,7 @@
             <div class="col-6">
               <h1 class="logo">
                 <a href="{% url 'home' %}">
-                  Django Schools
+                  Stryker
                   {% if user.is_authenticated %}
                     {% if user.is_teacher %}
                       <span class="icon-feather" data-toggle="tooltip" data-placement="right" title="Teacher profile"></span>
@@ -42,11 +42,11 @@
               {% if user.is_authenticated %}
                 <div style="float: right;">
                   {% if user.is_student %}
-                    <strong><a href="{% url 'students:student_detail' student=user.id %}">{{ user.username }}</a> - {{user.student.score}}</strong>
+                    <strong><a href="{% url 'students:student_detail' student=user.id %}">{{ user.username }}</a></strong>
                   {% else %}
                     <strong>{{ user.username }}</strong>
                   {% endif %}
-                    | <form method="post" style="display:inline!important;" action="{% url 'logout' %}">
+                    |<form method="post" style="display:inline!important;" action="{% url 'logout' %}">
                       {% csrf_token %}
                       <button class="btn btn-link" type="submit">logout</button>
                   </form>
@@ -70,13 +70,13 @@
               {% endblock %}
             </div>
           </div>
-          <footer>
+          <!-- <footer>
             <a href="https://simpleisbetterthancomplex.com">© SimpleIsBetterThanComplex.com</a>
             /
             <a href="https://simpleisbetterthancomplex.com/tutorial/2018/01/18/how-to-implement-multiple-user-types-with-django.html">Read more about this example</a>
             /
             <a href="https://github.com/suhailvs/django-schools/">GitHub repository</a>
-          </footer>
+          </footer> -->
         </div>
       </div>
     </div>
