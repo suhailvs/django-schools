@@ -35,6 +35,13 @@
       </tbody>
     </table>
     </div>
+    {% if question.explanation %}
+      <div class="alert alert-info mt-3">
+        <strong>Explanation:</strong><br>
+        {{ question.explanation|safe }}
+      </div>
+    {% endif %}
+
   </div>
 </div>
 <br>

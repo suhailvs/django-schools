@@ -60,7 +60,7 @@ class QuestionsFileForm(forms.Form):
 class QuestionForm(forms.ModelForm):
     class Meta:
         model = Question
-        fields = ('text', )
+        fields = ('text', 'explanation')
 
 
 class BaseAnswerInlineFormSet(forms.BaseInlineFormSet):

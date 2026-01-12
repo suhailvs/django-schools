@@ -1,3 +1,4 @@
+import os
 from django.contrib import messages
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
@@ -15,7 +16,7 @@ from django.views import View
 from ..decorators import teacher_required
 from ..forms import (BaseAnswerInlineFormSet, QuestionForm, TeacherSignUpForm,
     QuizForm,QuestionsFileForm)
-from ..models import Answer, Question, Quiz
+from ..models import Answer, Question, Quiz, Subject
 
 User = get_user_model()
 
@@ -64,8 +65,12 @@ class QuizCreateView(CreateView):
 
 def create_question(quiz,line):
     items = line.split(',')
-    question = Question.objects.create(quiz = quiz, text = items[0])    
-    correct_index = int(items[-1])
+    correct_index=items[-1]
+    explanation=''
+    if ':explanation:' in correct_index:
+        correct_index,explanation=correct_index.split(':explanation:')
+    question = Question.objects.create(quiz = quiz, text = items[0],explanation=explanation)    
+    correct_index = int(correct_index)
     for i,ans in enumerate(items[1:-1]):
         Answer.objects.create(question = question, text = ans.strip(), is_correct=(correct_index==i+1))
 
@@ -253,3 +258,37 @@ class QuestionPreviewView(DetailView):
 
     def get_queryset(self):
         return Question.objects.filter(quiz__owner=self.request.user)
+
+@method_decorator([login_required, teacher_required], name='dispatch')
+class QuizBulkAddView(View):
+    def add_quiz(self,subject, quiz_name):
+        obj_subj, _ = Subject.objects.get_or_create(name = subject.replace('_',' '))
+        teacher = User.objects.filter(is_teacher=True).first()
+        if not teacher:
+            teacher=User.objects.create_user(username='teacher',is_teacher=True,password='a')
+        quiz= Quiz.objects.create(owner = teacher, name=quiz_name, subject=obj_subj)
+        filename = os.path.join(self.folderpath, subject, '{0}.txt'.format(quiz_name))
+        fp = open(filename,'r')
+        print(f'Processing file: {filename}')
+        for line in fp.readlines():
+            items = line.split(',')
+            correct_index=items[-1]
+            explanation=''
+            if ':explanation:' in correct_index:
+                correct_index,explanation=correct_index.split(':explanation:')
+            question = Question.objects.create(quiz = quiz, text = items[0],explanation=explanation)    
+            correct_index = int(correct_index)
+            for i,ans in enumerate(items[1:-1]):
+                Answer.objects.create(question = question, text = ans.strip(), is_correct=(correct_index==i+1))
+
+    def get(self, request):
+        self.folderpath = 'classroom/fixtures/quizzes'
+        with transaction.atomic():
+            for r, d, f in os.walk(self.folderpath):
+                for file in f:
+                    if ".txt" in file:
+                        subject = r.rsplit('/',1)[1]
+                        quiz_name = file.split('.')[0]                    
+                        self.add_quiz(subject,quiz_name)
+        return redirect('teachers:quiz_change_list')
+       

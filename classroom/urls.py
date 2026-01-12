@@ -19,6 +19,7 @@ urlpatterns = [
     path('teachers/', include(([
         path('', teachers.QuizListView.as_view(), name='quiz_change_list'),
         path('quiz/add/', teachers.QuizCreateView.as_view(), name='quiz_add'),
+        path('quiz/add_bulk/', teachers.QuizBulkAddView.as_view(), name='quiz_add_bulk'),
         path('quiz/<int:pk>/', teachers.quiz_update, name='quiz_change'),
         path('quiz/<int:pk>/delete/', teachers.QuizDeleteView.as_view(), name='quiz_delete'),
         path('quiz/<int:pk>/results/', teachers.QuizResultsView.as_view(), name='quiz_results'),
