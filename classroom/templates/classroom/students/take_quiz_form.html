@@ -13,7 +13,7 @@
   <div class="progress" role="progressbar" aria-label="Quiz progress" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100">
     <div class="progress-bar overflow-visible bg-success" style="width: {{ progress }}%">Question: {{ answered_questions|add:"1" }} of {{total_questions}}({{ progress }}%)</div>
   </div>
-
+  <p>Time Taken: <span id="timer"></span></p>
   <p class="lead">{{ question.text|safe }}</p>
   <form method="post" novalidate>
     {% csrf_token %}
@@ -25,4 +25,18 @@
 {% block js %}
 <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
 <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script>
+  let seconds = {{time_taken}};
+
+  function formatTime(sec) {
+    const hrs = String(Math.floor(sec / 3600)).padStart(2, '0');
+    const mins = String(Math.floor((sec % 3600) / 60)).padStart(2, '0');
+    const secs = String(sec % 60).padStart(2, '0');
+    return `${hrs}:${mins}:${secs}`;
+  }
+  setInterval(() => {
+    seconds++;
+    document.getElementById('timer').textContent = formatTime(seconds);
+  }, 1000);
+</script>
 {% endblock %}
