@@ -64,8 +64,12 @@ class QuizCreateView(CreateView):
 
 def create_question(quiz,line):
     items = line.split(',')
-    question = Question.objects.create(quiz = quiz, text = items[0])    
-    correct_index = int(items[-1])
+    correct_index=items[-1]
+    explanation=''
+    if ':explanation:' in correct_index:
+        correct_index,explanation=correct_index.split(':explanation:')
+    question = Question.objects.create(quiz = quiz, text = items[0],explanation=explanation)    
+    correct_index = int(correct_index)
     for i,ans in enumerate(items[1:-1]):
         Answer.objects.create(question = question, text = ans.strip(), is_correct=(correct_index==i+1))
 
