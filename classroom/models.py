@@ -73,7 +73,7 @@ class TakenQuiz(models.Model):
     score = models.IntegerField()
     percentage = models.FloatField()
     date = models.DateTimeField(auto_now_add=True)
-
+    time_taken = models.DurationField(null=True, blank=True)
 
 class StudentAnswer(models.Model):
     student = models.ForeignKey(Student, on_delete=models.CASCADE, related_name='quiz_answers')

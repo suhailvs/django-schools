@@ -1,3 +1,4 @@
+from datetime import timedelta
 from django.contrib import messages
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
@@ -11,6 +12,8 @@ from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views.generic import CreateView, ListView, UpdateView
 from django.views import View
+from django.utils import timezone
+from django.utils.dateparse import parse_datetime
 
 from ..decorators import student_required
 from ..forms import StudentInterestsForm, StudentSignUpForm, TakeQuizForm
@@ -73,19 +76,13 @@ class QuizListView(ListView):
 class QuizResultsView(View):
     template_name = 'classroom/students/quiz_result.html'
 
-    def get(self, request, *args, **kwargs):        
-        quiz = Quiz.objects.get(id = kwargs['pk'])
-        taken_quiz = TakenQuiz.objects.filter(student = request.user.student, quiz = quiz)
-        if not taken_quiz:
-            """
-            Don't show the result if the user didn't attempted the quiz
-            """
-            return render(request, '404.html')
-        questions = Question.objects.filter(quiz =quiz)
+    def get(self, request, pk):
+        quiz = get_object_or_404(Quiz, pk=pk)
+        taken_quiz = get_object_or_404(TakenQuiz,  student=request.user.student, quiz=quiz)
+        questions = quiz.questions.all()
+        context = {'quiz': quiz,'questions': questions,'taken_quiz': taken_quiz}      
+        return render(request, self.template_name, context)
         
-        # questions = self.form_class(initial=self.initial)
-        return render(request, self.template_name, {'questions':questions, 
-            'quiz':quiz, 'percentage': taken_quiz[0].percentage})
 
 
 @method_decorator([login_required, student_required], name='dispatch')
@@ -116,7 +113,12 @@ def take_quiz(request, pk):
     if student.quizzes.filter(pk=pk).exists():
         # return render(request, 'students/taken_quiz.html')
         return redirect('students:student_quiz_results', pk)
-
+    
+    if f'quiz{pk}_start_time' not in request.session:
+        request.session[f'quiz{pk}_start_time'] = timezone.now().isoformat()
+    time_taken = timezone.now() - parse_datetime(request.session[f'quiz{pk}_start_time'])
+    time_taken = timedelta(seconds=int(time_taken.total_seconds()))
+    
     total_questions = quiz.questions.count()
     unanswered_questions = student.get_unanswered_questions(quiz)
     total_unanswered_questions = unanswered_questions.count()
@@ -135,7 +137,7 @@ def take_quiz(request, pk):
                 else:
                     correct_answers = student.quiz_answers.filter(answer__question__quiz=quiz, answer__is_correct=True).count()
                     percentage = round((correct_answers / total_questions) * 100.0, 2)
-                    TakenQuiz.objects.create(student=student, quiz=quiz, score=correct_answers, percentage= percentage)
+                    TakenQuiz.objects.create(student=student, quiz=quiz, score=correct_answers, percentage= percentage,time_taken=time_taken)
                     student.score = TakenQuiz.objects.filter(student=student).aggregate(Sum('score'))['score__sum']
                     student.save()
                     if percentage < 50.0:
@@ -146,8 +148,8 @@ def take_quiz(request, pk):
                     return redirect('students:student_quiz_results', pk)
     else:
         form = TakeQuizForm(question=question)
-
     return render(request, 'classroom/students/take_quiz_form.html', {
+        'time_taken':int(time_taken.total_seconds()),
         'quiz': quiz,
         'question': question,
         'form': form,
