@@ -2,7 +2,6 @@
 
 [![Python Version](https://img.shields.io/badge/python-3.12-brightgreen.svg)](https://python.org)
 [![Django Version](https://img.shields.io/badge/django-5.0-brightgreen.svg)](https://djangoproject.com)
-[![CircleCI](https://circleci.com/gh/suhailvs/django-schools.svg?style=svg)](https://circleci.com/gh/suhailvs/django-schools)
 
 ## [demo](https://django.stackschools.com/)
 
@@ -38,21 +37,18 @@ python manage.py loaddata datas.json
 python manage.py runserver
 ```
 
-The project will be available at http://127.0.0.1:8000, Login using::
+The project will be available at http://127.0.0.1:8000.
 
-**Teacher**
 
-+ username: `teacher`
-+ password: `teacher`
+### You can login using:
 
-**Student**
-
-+ username: `student`
-+ password: `student`
-
+UserType | Username | Password
+--- | --- | ---
+Teacher | `teacher` | `teacher`
+Student | `student` | `student`
 
 ## License
 
-The source code is released under the [MIT License](https://github.com/sibtc/django-multiple-user-types-example/blob/master/LICENSE).
+The source code is released under the MIT License.
 
 
