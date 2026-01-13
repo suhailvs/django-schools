@@ -47,7 +47,7 @@
 <script src="{% static 'datatables/dataTables.bootstrap5.min.js' %}"></script>
 <script type="text/javascript">
 $(document).ready(function() {
-    $('#tb_quizlist').DataTable({"order": [[ 0, "desc" ]]});
+    $('#tb_quizlist').DataTable({"pageLength": 100,"order": [[ 0, "desc" ]]});
 });
 </script>
 {% endif %}
