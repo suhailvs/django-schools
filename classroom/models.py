@@ -29,6 +29,10 @@ class Quiz(models.Model):
 
     def __str__(self):
         return self.name
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['name', 'subject'],name='unique_name_subject')
+        ]
 
 
 class Question(models.Model):

@@ -263,25 +263,18 @@ class QuestionPreviewView(DetailView):
 class QuizBulkAddView(View):
     def add_quiz(self,subject, quiz_name):
         obj_subj, _ = Subject.objects.get_or_create(name = subject.replace('_',' '))
-        teacher = User.objects.filter(is_teacher=True).first()
-        if not teacher:
-            teacher=User.objects.create_user(username='teacher',is_teacher=True,password='a')
-        quiz= Quiz.objects.create(owner = teacher, name=quiz_name, subject=obj_subj)
         filename = os.path.join(self.folderpath, subject, '{0}.txt'.format(quiz_name))
+        if Quiz.objects.filter(name=quiz_name, subject=obj_subj):
+            return f'Skipped file: {filename}'
+        quiz= Quiz.objects.create(owner = self.request.user, name=quiz_name, subject=obj_subj)
         fp = open(filename,'r')
         print(f'Processing file: {filename}')
         for line in fp.readlines():
-            items = line.split(',')
-            correct_index=items[-1]
-            explanation=''
-            if ':explanation:' in correct_index:
-                correct_index,explanation=correct_index.split(':explanation:')
-            question = Question.objects.create(quiz = quiz, text = items[0],explanation=explanation)    
-            correct_index = int(correct_index)
-            for i,ans in enumerate(items[1:-1]):
-                Answer.objects.create(question = question, text = ans.strip(), is_correct=(correct_index==i+1))
+            create_question(quiz,line)
+        return f'Added file: {filename}'
 
     def get(self, request):
+        result = ''
         self.folderpath = 'classroom/fixtures/quizzes'
         with transaction.atomic():
             for r, d, f in os.walk(self.folderpath):
@@ -289,6 +282,7 @@ class QuizBulkAddView(View):
                     if ".txt" in file:
                         subject = r.rsplit('/',1)[1]
                         quiz_name = file.split('.')[0]                    
-                        self.add_quiz(subject,quiz_name)
+                        result+= self.add_quiz(subject,quiz_name)+', '
+        messages.success(self.request, f'Following files processed: {result}')
         return redirect('teachers:quiz_change_list')
        

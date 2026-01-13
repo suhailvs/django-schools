@@ -97,29 +97,19 @@ DATABASES = {
     }
 }
 
-if config('DB_NAME'):
-    DATABASES = {
-      'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': config('DB_NAME'),
-        'USER': config('DB_USER'),
-        'PASSWORD': config('DB_PASSWORD'),
-        'HOST': config('DB_HOST'),
-        'PORT': '5432',
-      } 
-    }
 
-if config('IS_VERSEL'):
+if config('IS_VERSEL', cast=bool):
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
-            'NAME': 'verceldb1',
-            'USER': 'default',
-            'PASSWORD': 'BbDwy7i1lYXL',
-            'HOST': 'ep-sweet-star-a473ofsf.us-east-1.aws.neon.tech',
+            'NAME': 'neondb',
+            'USER': 'neondb_owner',
+            'PASSWORD': 'npg_BFAvTSX0Y4MO',
+            'HOST': 'ep-patient-moon-ahnqdvv0.c-3.us-east-1.aws.neon.tech',
             'PORT': '5432',
             'OPTIONS': {
                 'sslmode': 'require',
+                'channel_binding':'require',
             },
         }
     }
