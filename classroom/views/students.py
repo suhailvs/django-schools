@@ -114,10 +114,10 @@ def take_quiz(request, pk):
     if student.quizzes.filter(pk=pk).exists():
         # return render(request, 'students/taken_quiz.html')
         return redirect('students:student_quiz_results', pk)
-    
-    if f'quiz{pk}_start_time' not in request.session:
-        request.session[f'quiz{pk}_start_time'] = timezone.now().isoformat()
-    time_taken = timezone.now() - parse_datetime(request.session[f'quiz{pk}_start_time'])
+    session_key = f'quiz{pk}_start_time'
+    if session_key not in request.session:
+        request.session[session_key] = timezone.now().isoformat()
+    time_taken = timezone.now() - parse_datetime(request.session[session_key])
     time_taken = timedelta(seconds=int(time_taken.total_seconds()))
     
     total_questions = quiz.questions.count()
@@ -141,6 +141,7 @@ def take_quiz(request, pk):
                     TakenQuiz.objects.create(student=student, quiz=quiz, score=correct_answers, percentage= percentage,time_taken=time_taken)
                     student.score = TakenQuiz.objects.filter(student=student).aggregate(Sum('score'))['score__sum']
                     student.save()
+                    request.session.pop(session_key, None)
                     if percentage < 50.0:
                         messages.warning(request, 'Better luck next time! Your score for the quiz %s was %s.' % (quiz.name, percentage))
                     else:
