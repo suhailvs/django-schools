@@ -10,7 +10,7 @@
     </ol>
 </nav>
 <div class="progress mb-2" style="height: 22px;">
-  <div class="progress-bar progress-bar-striped progress-bar-animated bg-success" role="progressbar" style="width: {{taken_quiz.percentage}}%" aria-valuenow="{{taken_quiz.percentage}}" aria-valuemin="0" aria-valuemax="100">{{taken_quiz.percentage}}%</div>
+  <div class="progress-bar progress-bar-striped bg-success" role="progressbar" style="width: {{taken_quiz.percentage}}%" aria-valuenow="{{taken_quiz.percentage}}" aria-valuemin="0" aria-valuemax="100"><strong>{{taken_quiz.percentage}}%</strong></div>
 </div>
 {{ quiz.subject.get_html_badge }}
 <p class="lead">{{taken_quiz.score}} correct out of {{questions.count}}

@@ -1,6 +1,5 @@
 Django==5.0.7
 django-crispy-forms==2.3
-social-auth-app-django==5.4.2
 python-decouple==3.8
 crispy-bootstrap5==2024.2
 whitenoise==6.7.0

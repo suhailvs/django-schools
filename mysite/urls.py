@@ -29,7 +29,5 @@ urlpatterns = [
     path('accounts/signup/', students.StudentSignUpView.as_view(), name='signup'),
     # path('accounts/signup/student/', students.StudentSignUpView.as_view(), name='student_signup'),
     path('accounts/signup/teacher/', teachers.TeacherSignUpView.as_view(), name='teacher_signup'),
-    path('oauth/', include('social_django.urls', namespace='social')),  # <--
-
 ] 
 
