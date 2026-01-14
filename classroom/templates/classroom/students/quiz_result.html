@@ -1,6 +1,10 @@
 {% extends 'base.html' %}
 {% load quiz_extras %}
-
+{% block css %}
+<style type="text/css">
+img {width: 100%}
+</style>
+    {% endblock %}
 {% block content %}
 {% include 'classroom/students/_header.html' with active='taken' %}
 <nav aria-label="breadcrumb">
