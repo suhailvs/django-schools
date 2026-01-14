@@ -9,11 +9,17 @@ jobs: # A basic unit of work in a run
         environment: # environment variables for primary container
           PIPENV_VENV_IN_PROJECT: true
           DATABASE_URL: postgresql://root@localhost/circle_test?sslmode=disable
+          SECRET_KEY: s
+          DEBUG: True
+          IS_VERSEL: False
       # CircleCI PostgreSQL images available at: https://hub.docker.com/r/circleci/postgres/
       - image: circleci/postgres:9.6.2
         environment: # environment variables for the Postgres container.
           POSTGRES_USER: root
           POSTGRES_DB: circle_test
+          SECRET_KEY: s
+          DEBUG: True
+          IS_VERSEL: False
     steps: # steps that comprise the `build` job
       - checkout # check out source code to working directory
       - run: sudo chown -R circleci:circleci /usr/local/bin
