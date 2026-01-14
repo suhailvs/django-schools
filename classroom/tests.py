@@ -1,10 +1,7 @@
 from django.test import TestCase, Client
-
 from django.urls import reverse
 from django.template import Template, Context
-
-
-from classroom.models import Student
+from classroom.models import Student, Quiz, Question, Answer, Subject, User
 
 class LoginPageTest(TestCase):
     fixtures = ["datas.json"]
@@ -60,14 +57,13 @@ class LoginPageTest(TestCase):
         
         # there is tab view in homepage and check there is quiz list url in home page 
         self.assertInHTML(self.tabs('home'), response.content.decode())
-
         quiz1 = '''<tr>
-            <td class="align-middle">World War 1</td>
-            <td class="align-middle d-none d-sm-table-cell"><span class="badge badge-primary" style="background-color: #ffc107">History</span></td>
-            <td class="align-middle d-none d-sm-table-cell">4</td>
-            <td class="text-right" data-orderable="false">
-                <a href="/students/quiz/1/" class="btn btn-primary">Start quiz</a>
-            </td>
+          <td class="align-middle">Django1</td>
+          <td class="align-middle d-none d-sm-table-cell"><span class="badge badge-primary" style="background-color: #007bff">Computing</span></td>
+          <td class="align-middle d-none d-sm-table-cell">2</td>
+          <td class="text-right" data-orderable="false">
+            <a href="/students/quiz/1/" class="btn btn-primary">Start quiz</a>
+          </td>
         </tr>
         '''
         self.assertInHTML(quiz1, response.content.decode())
@@ -153,9 +149,78 @@ class LoginPageTest(TestCase):
         response = self.client.get(reverse('teacher_signup'))
         self.assertInHTML(self.tabs(), response.content.decode())
 
-        
+class QuizAppTestCase(TestCase):
+    fixtures = ["datas.json"]
 
-# class TestDeleteTakenQuiz(TestCase):
-#     def test_delete_takenquiz(self):
-#         taken_quiz_list
-#         taken_quiz
+    def setUp(self):
+        self.client = Client()
+        self.teacher_user = User.objects.get(username="teacher")
+        self.student_user = User.objects.get(username="student")
+        # If you have related teacher/student models, adjust as needed
+        # self.teacher = self.teacher_user.teacher
+        # self.student = self.student_user.student
+
+    def test_teacher_can_create_quiz(self):
+        self.client.login(username="teacher", password="teacher")
+        subject = Subject.objects.first()
+        response = self.client.post(reverse("teachers:quiz_add"), {
+            "name": "Sample Quiz",
+            "subject": subject.pk,
+            "description": "A test quiz"
+        })
+        self.assertEqual(response.status_code, 302)
+        self.assertTrue(Quiz.objects.filter(name="Sample Quiz").exists())
+
+    def test_student_cannot_access_quiz_create(self):
+        self.client.login(username="student", password="student")
+        response = self.client.get(reverse("teachers:quiz_add"))
+        self.assertNotEqual(response.status_code, 200)
+
+    def test_student_can_view_quiz_list(self):
+        self.client.login(username="student", password="student")
+        response = self.client.get(reverse("home"), follow=True)
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Quizzes")
+
+    def test_teacher_can_edit_and_delete_quiz(self):
+        self.client.login(username="teacher", password="teacher")
+        subject = Subject.objects.first()
+        quiz = Quiz.objects.create(name="Edit Quiz", subject=subject, owner=self.teacher_user)
+        edit_url = reverse("teachers:quiz_change", args=[quiz.pk])
+        response = self.client.post(edit_url, {"name": "Edited Quiz", "subject": subject.pk, "description": "Updated","action":"update_quiz"})
+        self.assertEqual(response.status_code, 302)
+        quiz.refresh_from_db()
+        self.assertEqual(quiz.name, "Edited Quiz")
+        delete_url = reverse("teachers:quiz_delete", args=[quiz.pk])
+        self.assertTrue(Quiz.objects.filter(pk=quiz.pk).exists())
+        
+        response = self.client.delete(delete_url)
+        self.assertFalse(Quiz.objects.filter(pk=quiz.pk).exists())
+        
+    def test_student_can_attempt_quiz(self):
+        subject = Subject.objects.first()
+        quiz = Quiz.objects.create(name="Attempt Quiz", subject=subject, owner=self.teacher_user)
+        question = Question.objects.create(quiz=quiz, text="What is 2+2?")
+        answer1 = Answer.objects.create(question=question, text="4", is_correct=True)
+        answer2 = Answer.objects.create(question=question, text="3", is_correct=False)
+        self.client.login(username="student", password="student")
+        attempt_url = reverse("students:take_quiz", args=[quiz.pk])
+        response = self.client.post(attempt_url, {f"answer": answer1.pk},follow=True)
+        self.assertEqual(response.status_code, 200)
+        self.assertIn('Congratulations! You completed the quiz Attempt Quiz with success! You scored 100.0 points.', response.content.decode())
+
+    def test_permissions_enforced(self):
+        subject = Subject.objects.first()
+        quiz = Quiz.objects.create(name="Perm Quiz", subject=subject, owner=self.teacher_user)
+        self.client.login(username="student", password="student")
+        edit_url = reverse("teachers:quiz_change", args=[quiz.pk])
+        response = self.client.get(edit_url)
+        self.assertNotEqual(response.status_code, 200)
+
+    def test_unauthenticated_redirect(self):
+        subject = Subject.objects.first()
+        quiz = Quiz.objects.create(name="Anon Quiz", subject=subject, owner=self.teacher_user)
+        attempt_url = reverse("students:take_quiz", args=[quiz.pk])
+        response = self.client.get(attempt_url)
+        self.assertEqual(response.status_code, 302)
+        self.assertIn("login", response.url)

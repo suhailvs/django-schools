@@ -88,7 +88,7 @@
         $("form").on("submit", function () {
           const submitBtn = $(this).find('button[type="submit"]').first();
           if (!submitBtn.length) return;
-          submitBtn.prop("disabled", true);
+          submitBtn.css("pointer-events", "none");
           submitBtn.html('<span class="spinner-border spinner-border-sm me-2" role="status"></span>Processing...');
         });
       });
