@@ -2,6 +2,7 @@
 
 [![Python Version](https://img.shields.io/badge/python-3.12-brightgreen.svg)](https://python.org)
 [![Django Version](https://img.shields.io/badge/django-5.0-brightgreen.svg)](https://djangoproject.com)
+[![CircleCI](https://circleci.com/gh/suhailvs/django-schools.svg?style=svg)](https://circleci.com/gh/suhailvs/django-schools)
 
 ## [demo](https://django.stackschools.com/)
 
