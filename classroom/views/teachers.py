@@ -64,7 +64,8 @@ class QuizCreateView(CreateView):
 
 
 def create_question(quiz,line):
-    items = line.split(',')
+    DELIMITER = '|'
+    items = line.strip().split(DELIMITER)
     correct_index=items[-1]
     explanation=''
     if ':explanation:' in correct_index:

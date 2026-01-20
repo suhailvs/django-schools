@@ -1,15 +1,15 @@
-Apprehensive uneasiness or nervousness usually over an impending or anticipated ill, Contagion, Cough, Anxiety, Fever, 3
-The communication of disease from one person to another by close contact, Contagion, Disinfecting, Panic, Cough, 1
-To expel air from the lungs suddenly with a sharp short noise,Fever, Contagion, Sanitation, Cough, 4
-Destroying harmful microorganisms to prevent disease,Quarantine, Disinfecting, Sanitation, Emergency,2
-An unforeseen combination of circumstances or the resulting state that calls for immediate action, Emergency, Quarantine, Panic,Recession, 1
-A rise of body temperature above the normal, Panic, Sanitation, Disinfecting, Fever, 4
-The number of a particular group who die each year, Mortality Rate, Pandemic,  Recession, Ventilator, 1
-An outbreak of a disease that occurs over a wide geographic area and affects an exceptionally high proportion of the population, Recession, Quarantine, Pandemic, Virus, 3
-A sudden overpowering fright, Recession, Pandemic,Fever, Panic, 4
-A state of enforced isolation, Quarantine, Sanitation, Recession, Disinfecting, 1
-A period of reduced economic activity, Sanitation, Pandemic, Recession, Disinfecting, 3
-The promotion of hygiene and prevention of disease by maintenance of conditions (as by removal of sewage and trash), Quarantine, Sanitation, Recession, Disinfecting, 2
-The practice of maintaining a greater than usual physical separation from other people or of avoiding direct contact with people or objects in public places during the outbreak of a contagious disease in order to minimize exposure and reduce the transmission of infection, Social Distancing, Quarantine, Disinfecting, Sanitation, 1
-A machine that breathes for you or helps you breathe, Ventilator, Sanitation, Pandemic, Panic,1
-Any of a large group of submicroscopic infectious agents that are usually regarded as nonliving extremely complex molecules that typically contain a protein coat surrounding an RNA or DNA core of genetic material but no semipermeable membrane that are capable of growth and multiplication only in living cells and that cause various important diseases in humans animals and plants, Virus, Fever, Sanitation, Cough, 1
+Apprehensive uneasiness or nervousness usually over an impending or anticipated ill| Contagion| Cough| Anxiety| Fever| 3
+The communication of disease from one person to another by close contact| Contagion| Disinfecting| Panic| Cough| 1
+To expel air from the lungs suddenly with a sharp short noise|Fever| Contagion| Sanitation| Cough| 4
+Destroying harmful microorganisms to prevent disease|Quarantine| Disinfecting| Sanitation| Emergency|2
+An unforeseen combination of circumstances or the resulting state that calls for immediate action| Emergency| Quarantine| Panic|Recession| 1
+A rise of body temperature above the normal| Panic| Sanitation| Disinfecting| Fever| 4
+The number of a particular group who die each year| Mortality Rate| Pandemic|  Recession| Ventilator| 1
+An outbreak of a disease that occurs over a wide geographic area and affects an exceptionally high proportion of the population| Recession| Quarantine| Pandemic| Virus| 3
+A sudden overpowering fright| Recession| Pandemic|Fever| Panic| 4
+A state of enforced isolation| Quarantine| Sanitation| Recession| Disinfecting| 1
+A period of reduced economic activity| Sanitation| Pandemic| Recession| Disinfecting| 3
+The promotion of hygiene and prevention of disease by maintenance of conditions (as by removal of sewage and trash)| Quarantine| Sanitation| Recession| Disinfecting| 2
+The practice of maintaining a greater than usual physical separation from other people or of avoiding direct contact with people or objects in public places during the outbreak of a contagious disease in order to minimize exposure and reduce the transmission of infection| Social Distancing| Quarantine| Disinfecting| Sanitation| 1
+A machine that breathes for you or helps you breathe| Ventilator| Sanitation| Pandemic| Panic|1
+Any of a large group of submicroscopic infectious agents that are usually regarded as nonliving extremely complex molecules that typically contain a protein coat surrounding an RNA or DNA core of genetic material but no semipermeable membrane that are capable of growth and multiplication only in living cells and that cause various important diseases in humans animals and plants| Virus| Fever| Sanitation| Cough| 1

@@ -1,5 +1,5 @@
-What command is used to remove the directory ?,rmdir,rd,remove,rdir,1
-What command is used with vi editor to delete a single character ?,z,a,y,x,4
-What command is used to count the total number of lines words and characters contained in a file ?, count p, wc, wcount, countw, 2
-What command is used to remove files ?, erase, delete, rm, dm, 3
-What sign is used to back up over typing errors in vi ?, @, #, $, !, 2
+What command is used to remove the directory ?|rmdir|rd|remove|rdir|1
+What command is used with vi editor to delete a single character ?|z|a|y|x|4
+What command is used to count the total number of lines words and characters contained in a file ?| count p| wc| wcount| countw| 2
+What command is used to remove files ?| erase| delete| rm| dm| 3
+What sign is used to back up over typing errors in vi ?| @| #| $| !| 2

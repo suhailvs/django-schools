@@ -1,6 +1,6 @@
-What happens when url.py file is edited while the development server is still running?, Development server terminates., The development server automatically restarts., The development server does nothing., The web page is automatically reloaded., 2
-Which setting contains the parameter of main-urls file?, ROOT_URLCONF, MAIN_URLCONF, STATIC_URL, MEDIA_URL, 1
-What is the purpose of __init__.py in project directories?, It allows Python to recognise the folder as package., It is useless and can be deleted., It is used to initialise any empty values., None of the above, 1
-Which method is used instead of path() in urls.py to pass in regular expressions as routes?, static(), re_path(), include(),None of the above, 2
-What does {{ forloop.counter }} inside a forloop tag prints?, The current iteration of the loop (1-indexed), The current iteration of the loop (0-indexed), It will not print "loop variable is not defined", None of the above, 1
-This template {# #} is used for?, It is used for business logic., It is comment in template language., It will raise an exception., None of the above, 2
+What happens when url.py file is edited while the development server is still running?| Development server terminates.| The development server automatically restarts.| The development server does nothing.| The web page is automatically reloaded.| 2
+Which setting contains the parameter of main-urls file?| ROOT_URLCONF| MAIN_URLCONF| STATIC_URL| MEDIA_URL| 1
+What is the purpose of __init__.py in project directories?| It allows Python to recognise the folder as package.| It is useless and can be deleted.| It is used to initialise any empty values.| None of the above| 1
+Which method is used instead of path() in urls.py to pass in regular expressions as routes?| static()| re_path()| include()|None of the above| 2
+What does {{ forloop.counter }} inside a forloop tag prints?| The current iteration of the loop (1-indexed)| The current iteration of the loop (0-indexed)| It will not print "loop variable is not defined"| None of the above| 1
+This template {# #} is used for?| It is used for business logic.| It is comment in template language.| It will raise an exception.| None of the above| 2
