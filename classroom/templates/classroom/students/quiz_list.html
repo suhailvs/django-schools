@@ -29,7 +29,7 @@
           <td class="align-middle d-none d-sm-table-cell">{{ quiz.subject.get_html_badge }}</td>
           <td class="align-middle d-none d-sm-table-cell">{{ quiz.questions_count }}</td>
           <td class="text-right" data-orderable="false">
-            <a href="{% url 'students:take_quiz' quiz.pk %}" class="btn btn-primary">Start quiz</a>
+            <a href="{% url 'students:take_quiz' quiz.pk %}" class="btn btn-primary">Start</a>
           </td>
         </tr>
       {% empty %}
