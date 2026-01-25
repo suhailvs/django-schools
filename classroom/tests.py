@@ -62,7 +62,7 @@ class LoginPageTest(TestCase):
           <td class="align-middle d-none d-sm-table-cell"><span class="badge badge-primary" style="background-color: #007bff">Computing</span></td>
           <td class="align-middle d-none d-sm-table-cell">2</td>
           <td class="text-right" data-orderable="false">
-            <a href="/students/quiz/1/" class="btn btn-primary">Start quiz</a>
+            <a href="/students/quiz/1/" class="btn btn-primary">Start</a>
           </td>
         </tr>
         '''
